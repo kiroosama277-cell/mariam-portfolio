@@ -485,7 +485,7 @@ export const contact = {
   title1: "Let's make ",
   titleAccent: "something lovely",
   subtitle:
-    "Got a project, a wild idea, or just want to say hi? My inbox is always cozy and open — I usually reply within 24 hours.",
+    "Got a project, a wild idea, or just want to say hi? My WhatsApp is always cozy and open — I usually reply within 24 hours.",
   whatsappBanner: {
     kicker: "FASTEST WAY TO REACH ME",
     title: "WhatsApp me",
@@ -500,13 +500,10 @@ export const contact = {
   form: {
     name: "Your name",
     namePlaceholder: "What should I call you?",
-    email: "Email",
-    emailPlaceholder: "you@example.com",
     message: "Message",
     messagePlaceholder: "Tell me about your project, your idea, or just say hi...",
-    submit: "Send it my way",
-    sending: "Sending…",
-    note: "Your message lands safely in my inbox — no spam, ever.",
+    submit: "Send on WhatsApp",
+    note: "Tap send — WhatsApp opens with your message ready. No email, nothing gets lost.",
   },
 };
 

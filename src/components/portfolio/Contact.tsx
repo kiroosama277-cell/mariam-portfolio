@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, Loader2, Mail, Send, ArrowUp, ArrowUpRight } from "lucide-react";
+import { Instagram, Linkedin, Mail, ArrowUp, ArrowUpRight } from "lucide-react";
 import { contact, footer, site } from "./data";
 import { useToast } from "@/hooks/use-toast";
 import { FadeUp, Magnetic, WordsReveal } from "./fx";
@@ -16,13 +16,6 @@ export function WhatsAppIcon({ className = "h-5 w-5" }: { className?: string }) 
   );
 }
 
-/* real email delivery — FormSubmit AJAX (free, no account); submission runs in the
-   visitor's browser, lands in site.email inbox. First ever submission triggers a
-   one-time activation email to the owner — after clicking Activate once, all
-   messages arrive normally. */
-const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${site.email}`;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const channelIcons: Record<string, React.ReactNode> = {
   instagram: <Instagram className="h-5 w-5" />,
   whatsapp: <WhatsAppIcon className="h-5 w-5" />,
@@ -32,63 +25,36 @@ const channelIcons: Record<string, React.ReactNode> = {
 
 export default function Contact() {
   const { toast } = useToast();
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sending, setSending] = useState(false);
-  const [honey, setHoney] = useState("");
+  const [form, setForm] = useState({ name: "", message: "" });
 
-  const submit = async (e: React.FormEvent) => {
+  /* zero-dependency delivery: the form composes the message and hands it to
+     WhatsApp (wa.me deep link) — it lands directly on her phone, no email
+     service, no activation, nothing to break. */
+  const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (sending) return;
     const name = form.name.trim();
-    const email = form.email.trim();
     const message = form.message.trim();
-    if (!name || !email || !message) {
+    if (!name || !message) {
       toast({
         title: "Almost there ✦",
-        description: "Fill in your name, email and message first, lovely.",
+        description: "Fill in your name and message first, lovely.",
       });
       return;
     }
-    if (!EMAIL_RE.test(email)) {
+    const text = `Hi Mariam! ✦ I'm ${name}.\n\n${message}`;
+    const win = window.open(
+      `${site.whatsappUrl}?text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    if (win) {
+      setForm({ name: "", message: "" });
+    } else {
       toast({
-        title: "One tiny fix ✦",
-        description: "That email looks incomplete — double-check it so I can reply to you.",
+        title: "One tap away ✦",
+        description:
+          "Your browser blocked the pop-up — use the green WhatsApp pill above instead.",
       });
-      return;
-    }
-    setSending(true);
-    try {
-      const res = await fetch(CONTACT_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          _subject: `New message from ${name} — your portfolio ✦`,
-          _template: "table",
-          _captcha: "false",
-          _replyto: email,
-          _autoresponse: `Hi ${name}! Thank you for reaching out through my portfolio — your message landed safely in my inbox and I'll get back to you within 24 hours. ✦ Mariam`,
-          _honey: honey,
-        }),
-      });
-      const data = (await res.json().catch(() => null)) as { success?: string | boolean; message?: string } | null;
-      if (!res.ok || !data || String(data.success).toLowerCase() !== "true") {
-        throw new Error(data?.message || "send failed");
-      }
-      toast({
-        title: "Sent it your way ✈",
-        description: "Your message lands safely in my inbox — I usually reply within 24 hours.",
-      });
-      setForm({ name: "", email: "", message: "" });
-    } catch {
-      toast({
-        title: "The message got stuck ✦",
-        description: "The internet hiccuped — tap the green WhatsApp pill above and it reaches me instantly.",
-      });
-    } finally {
-      setSending(false);
     }
   };
 
@@ -199,43 +165,17 @@ export default function Contact() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="rounded-3xl border border-[#efe4cf] bg-[#fdfaf3] p-7 shadow-[0_16px_44px_rgba(90,40,60,0.09)] sm:p-9"
             >
-              {/* honeypot — bots fill it, humans never see it; FormSubmit silently drops those */}
-              <input
-                type="text"
-                name="_honey"
-                value={honey}
-                onChange={(e) => setHoney(e.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="hidden"
-              />
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="cf-name" className="mb-2 block text-sm font-bold text-[#4d3c46]">
-                    {contact.form.name}
-                  </label>
-                  <input
-                    id="cf-name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder={contact.form.namePlaceholder}
-                    className="w-full rounded-xl border border-[#eadcc2] bg-white/70 px-4 py-3.5 text-[15px] text-[#4d3c46] outline-none transition-all placeholder:text-[#b3a2ac] focus:border-[#c39c52] focus:ring-2 focus:ring-[#c39c52]/25"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="cf-email" className="mb-2 block text-sm font-bold text-[#4d3c46]">
-                    {contact.form.email}
-                  </label>
-                  <input
-                    id="cf-email"
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder={contact.form.emailPlaceholder}
-                    className="w-full rounded-xl border border-[#eadcc2] bg-white/70 px-4 py-3.5 text-[15px] text-[#4d3c46] outline-none transition-all placeholder:text-[#b3a2ac] focus:border-[#c39c52] focus:ring-2 focus:ring-[#c39c52]/25"
-                  />
-                </div>
+              <div>
+                <label htmlFor="cf-name" className="mb-2 block text-sm font-bold text-[#4d3c46]">
+                  {contact.form.name}
+                </label>
+                <input
+                  id="cf-name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder={contact.form.namePlaceholder}
+                  className="w-full rounded-xl border border-[#eadcc2] bg-white/70 px-4 py-3.5 text-[15px] text-[#4d3c46] outline-none transition-all placeholder:text-[#b3a2ac] focus:border-[#c39c52] focus:ring-2 focus:ring-[#c39c52]/25"
+                />
               </div>
               <div className="mt-5">
                 <label htmlFor="cf-msg" className="mb-2 block text-sm font-bold text-[#4d3c46]">
@@ -253,16 +193,10 @@ export default function Contact() {
               <Magnetic strength={0.2}>
                 <button
                   type="submit"
-                  disabled={sending}
-                  aria-busy={sending}
-                  className="group mt-6 inline-flex items-center gap-2.5 rounded-full bg-[#5e1d35] px-8 py-4 text-base font-bold text-[#fbf3e6] shadow-[0_10px_28px_rgba(94,29,53,0.35)] transition-all hover:-translate-y-0.5 hover:bg-[#4a1229] disabled:pointer-events-none disabled:opacity-70"
+                  className="group mt-6 inline-flex items-center gap-2.5 rounded-full bg-[#25d366] px-8 py-4 text-base font-bold text-white shadow-[0_10px_28px_rgba(37,211,102,0.35)] transition-all hover:-translate-y-0.5 hover:bg-[#1fa855]"
                 >
-                  {sending ? contact.form.sending : contact.form.submit}
-                  {sending ? (
-                    <Loader2 className="h-4.5 w-4.5 animate-spin" />
-                  ) : (
-                    <Send className="h-4.5 w-4.5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
-                  )}
+                  {contact.form.submit}
+                  <WhatsAppIcon className="h-4.5 w-4.5 transition-transform duration-300 group-hover:scale-110" />
                 </button>
               </Magnetic>
               <p className="mt-4 text-sm text-[#a08a92]">{contact.form.note}</p>
