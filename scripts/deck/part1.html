@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mariam Atef — Portfolio Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --cream: #f6efe4; --card: #fbf7ef; --burgundy: #5e1d35; --deep: #471228;
+    --gold: #c39c52; --gold-soft: #d9bd88; --pink: #e9bccd; --ink: #3f2f3a;
+    --muted: #8d7a84; --line: #e8dcc4;
+  }
+  html, body { margin: 0; padding: 0; width: 1280px; background: #471228; }
+  body { font-family: 'Quicksand', 'Segoe UI', sans-serif; color: var(--ink); }
+  * { box-sizing: border-box; }
+  p { margin: 0; overflow-wrap: break-word; }
+  img { max-width: 100%; }
+
+  .page { width: 1280px; height: 720px; position: relative; background: var(--cream); break-after: page; page-break-after: always; }
+  .page:last-of-type { break-after: auto; page-break-after: auto; }
+  .page.dark { background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep) 100%); color: var(--cream); }
+
+  @media screen {
+    html { height: auto; display: flex; justify-content: center; background: #471228; }
+    body { transform-origin: top center; scale: min(1, calc(100vw / 1280)); margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.35); }
+  }
+
+  /* ---------- shared vocabulary ---------- */
+  .pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3.5px; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(195,156,82,0.5); border-radius: 999px; padding: 7px 18px; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); }
+  .title { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 44px; line-height: 1.1; color: var(--burgundy); margin: 14px 0 0; }
+  .title em, .ct-title em, .em-gold { display: inline-block; font-style: italic; font-weight: 600; color: inherit;
+    background-image: linear-gradient(to right, var(--gold), var(--gold)); background-repeat: no-repeat;
+    background-size: 100% 0.13em; background-position: 0 92%; }
+  .sub { font-size: 15.5px; line-height: 1.65; color: var(--muted); margin-top: 12px; }
+  .footer { position: absolute; left: 88px; right: 88px; bottom: 26px; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--muted); }
+  .dark .footer { color: rgba(246,239,228,0.55); }
+  .ghost { position: absolute; font-family: 'Playfair Display', Georgia, serif; font-weight: 800; line-height: 1; color: rgba(94,29,53,0.05); pointer-events: none; }
+  .dark .ghost { color: rgba(246,239,228,0.05); }
+
+  /* ---------- slide 1 · cover ---------- */
+  .cover-left { position: absolute; left: 88px; top: 0; bottom: 44px; width: 660px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+  .hero-name { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 112px; line-height: 1.02; color: var(--burgundy); margin: 0; }
+  .hero-name .grad { display: inline-block; background: linear-gradient(100deg, #a4546e 0%, #7c3552 45%, #c39c52 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tagline { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 23px; color: var(--burgundy); }
+  .tagline .spark { color: var(--gold); font-style: normal; }
+  .cover-summary { font-size: 16px; line-height: 1.75; color: var(--ink); max-width: 520px; }
+  .cover-meta { position: absolute; left: 88px; bottom: 44px; font-size: 11.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+  .arch-wrap { position: absolute; right: 110px; top: 112px; width: 330px; height: 446px; }
+  .arch-ring { position: absolute; right: 96px; top: 98px; width: 330px; height: 446px; border: 1.5px solid var(--gold-soft); border-radius: 170px 170px 20px 20px; opacity: 0.85; }
+  .arch { position: absolute; right: 0; top: 0; width: 330px; height: 446px; border-radius: 170px 170px 20px 20px; overflow: hidden; box-shadow: 0 24px 48px rgba(120,50,80,0.18); }
+  .arch img { width: 100%; height: 100%; object-fit: cover; }
+  .cover-blob { position: absolute; right: 0; top: 40px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, rgba(233,188,205,0.55) 0%, rgba(233,188,205,0.22) 55%, rgba(233,188,205,0) 75%); }
+  .cover-spark { position: absolute; right: 470px; top: 96px; color: var(--gold); font-size: 26px; }
+  .cover-spark2 { position: absolute; right: 84px; top: 590px; color: var(--gold-soft); font-size: 18px; }
+
+  /* ---------- slide 2 · about ---------- */
+  .about-head { position: absolute; left: 88px; top: 62px; }
+  .about-copy { position: absolute; left: 88px; top: 208px; width: 600px; }
+  .about-copy p { font-size: 16px; line-height: 1.72; color: var(--ink); margin-bottom: 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; max-width: 100%; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-size: 13px; font-weight: 600; color: var(--burgundy); }
+  .chip .s { color: var(--gold); }
+  .stats { position: absolute; right: 88px; top: 212px; width: 420px; display: grid; grid-template-columns: 1fr 1fr; gap: 26px 30px; }
+  .stat { border-top: 2px solid rgba(195,156,82,0.55); padding-top: 16px; }
+  .stat .num { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 58px; line-height: 1; color: var(--burgundy); }
+  .stat .num sup { font-size: 30px; color: var(--gold); font-style: italic; }
+  .stat .lbl { font-size: 11.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+  .deco-circles { position: absolute; right: 96px; top: 56px; }
+
+  /* ---------- slide 3 · services ---------- */
+  .svc-head { position: absolute; left: 88px; top: 58px; }
+  .svc-row { position: absolute; left: 88px; right: 88px; top: 212px; display: flex; flex-wrap: wrap; gap: 22px; }
+  .svc-card { flex: 1 1 0; min-width: 300px; max-width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px 28px; }
+  .svc-num { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--gold); }
+  .svc-card h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 23px; font-weight: 700; color: var(--burgundy); margin: 10px 0 0; }
+  .svc-card .d { font-size: 14px; line-height: 1.62; color: var(--muted); margin-top: 9px; }
+  .svc-card ul { list-style: none; margin: 14px 0 0; padding: 0; }
+  .svc-card li { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.95; }
+  .svc-card li .s { color: var(--gold); margin-right: 8px; }
+  .tools { position: absolute; left: 88px; right: 88px; bottom: 62px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; background: rgba(195,156,82,0.12); border: 1px solid rgba(195,156,82,0.38); border-radius: 999px; padding: 13px 26px; font-size: 13px; color: var(--burgundy); }
+  .tools b { color: var(--gold); letter-spacing: 2px; text-transform: uppercase; font-size: 11.5px; margin-right: 6px; }
+
+  /* ---------- slide 4 · selected work (dark) ---------- */
+  .idx-head { position: absolute; left: 88px; top: 64px; }
+  .dark .title { color: var(--cream); }
+  .dark .sub { color: rgba(233,188,205,0.85); }
+  .idx-rows { position: absolute; left: 88px; right: 88px; top: 212px; }
+  .idx-row { display: flex; align-items: baseline; gap: 26px; padding: 18px 0; border-bottom: 1px solid rgba(246,239,228,0.18); }
+  .idx-row .n { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 700; font-size: 20px; color: var(--gold); width: 42px; flex: none; }
+  .idx-row .t { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: 25px; color: var(--cream); }
+  .idx-row .c { margin-left: auto; font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: rgba(233,188,205,0.75); text-align: right; }
+
+  /* ---------- slides 5-9 · project template ---------- */
+  .proj-ghost { top: 10px; font-size: 250px; }
+  .proj-media { position: absolute; top: 104px; width: 545px; }
+  .proj-media.left { left: 104px; }
+  .proj-media.right { right: 104px; }
+  .media-frame-deco { position: absolute; top: 90px; width: 545px; height: 416px; border: 1.5px solid var(--gold-soft); border-radius: 20px; }
+  .media-frame-deco.left { left: 90px; }
+  .media-frame-deco.right { right: 90px; }
+  .media-frame { position: absolute; top: 104px; width: 545px; height: 416px; border-radius: 18px; overflow: hidden; box-shadow: 0 22px 44px rgba(120,50,80,0.16); }
+  .media-frame.left { left: 104px; }
+  .media-frame.right { right: 104px; }
+  .media-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .media-cap { position: absolute; top: 536px; width: 545px; font-size: 12px; font-style: italic; color: var(--muted); text-align: center; }
+  .media-cap.left { left: 104px; }
+  .media-cap.right { right: 104px; }
+  .proj-text { position: absolute; top: 96px; width: 470px; }
+  .proj-text.left { left: 88px; }
+  .proj-text.right { right: 88px; }
+  .proj-title { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 42px; line-height: 1.08; color: var(--burgundy); margin: 14px 0 0; }
+  .proj-desc { font-size: 15.5px; line-height: 1.7; color: var(--ink); margin-top: 16px; }
+  .proj-points { list-style: none; margin: 16px 0 0; padding: 0; }
+  .proj-points li { font-size: 14px; font-weight: 600; color: var(--burgundy); line-height: 2.05; }
+  .proj-points li .s { color: var(--gold); margin-right: 9px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 18px; }
+  .tag { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; font-size: 12.5px; font-weight: 600; color: var(--burgundy); }
+  .deck-note { display: inline-block; margin-top: 20px; background: rgba(195,156,82,0.12); border: 1px solid rgba(195,156,82,0.38); border-radius: 999px; padding: 8px 18px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+  /* ---------- slide 10 · motion ---------- */
+  .mot-head { position: absolute; left: 88px; top: 56px; }
+  .mot-row { position: absolute; left: 88px; right: 88px; top: 218px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+  .mot-card { width: 316px; max-width: 100%; }
+  .mot-frame { position: relative; width: 316px; height: 356px; border-radius: 16px; overflow: hidden; box-shadow: 0 18px 36px rgba(120,50,80,0.16); }
+  .mot-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; border-radius: 50%; background: rgba(71,18,40,0.88); border: 1.5px solid rgba(246,239,228,0.7); }
+  .play::after { content: ""; position: absolute; left: 22px; top: 17px; border-left: 16px solid #f6efe4; border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+  .mot-card h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 21px; font-weight: 700; color: var(--burgundy); text-align: center; margin: 16px 0 0; }
+  .mot-card .c { font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); text-align: center; margin-top: 6px; }
+  .mot-note { position: absolute; left: 88px; right: 88px; bottom: 56px; text-align: center; font-size: 13px; color: var(--muted); }
+  .mot-note .s { color: var(--gold); }
+
+  /* ---------- slide 11 · brands ---------- */
+  .br-head { position: absolute; left: 88px; top: 58px; }
+  .br-grid { position: absolute; left: 88px; right: 88px; top: 216px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .br-card { background: #ffffff; border: 1px solid var(--line); border-radius: 14px; height: 150px; display: flex; align-items: center; justify-content: center; padding: 18px; }
+  .br-card img { max-height: 76px; max-width: 78%; object-fit: contain; }
+  .br-more { position: absolute; left: 88px; right: 88px; bottom: 58px; text-align: center; font-size: 13px; color: var(--muted); }
+  .br-more .s { color: var(--gold); }
+
+  /* ---------- slide 12 · contact (dark) ---------- */
+  .ct-wrap { position: absolute; left: 88px; top: 96px; width: 660px; }
+  .ct-title { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 58px; line-height: 1.12; color: var(--cream); margin: 18px 0 0; }
+  .ct-title em { font-style: italic; font-weight: 600; color: var(--gold-soft); }
+  .ct-sub { font-size: 16px; line-height: 1.7; color: rgba(233,188,205,0.9); margin-top: 16px; max-width: 560px; }
+  .wa-banner { margin-top: 30px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; background: rgba(195,156,82,0.13); border: 1px solid rgba(195,156,82,0.42); border-radius: 16px; padding: 20px 26px; }
+  .wa-banner .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-soft); }
+  .wa-banner .val { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 600; color: var(--cream); margin-top: 5px; }
+  .wa-cta { background: var(--gold); color: var(--deep); border-radius: 999px; padding: 11px 24px; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
+  .channels { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; }
+  .ch .l { font-size: 10.5px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--gold-soft); }
+  .ch .v { font-size: 15px; font-weight: 600; color: var(--cream); margin-top: 5px; }
+  .ct-deco { position: absolute; right: 110px; top: 150px; }
+  .ct-spark { position: absolute; right: 300px; top: 420px; color: var(--gold-soft); font-size: 30px; }
+  .ct-ghost-name { position: absolute; right: 60px; bottom: 60px; font-size: 170px; }
+</style>
+</head>
+<body>
+
+<!-- ============ SLIDE 1 · COVER ============ -->
+<div class="page">
+  <div class="cover-blob"></div>
+  <div class="cover-spark">✦</div>
+  <div class="cover-spark2">✦</div>
+  <div class="arch-ring"></div>
+  <div class="arch-wrap">
+    <div class="arch"><img src="assets/mariam.jpg" alt="Mariam" style="object-position: 50% 18%;"></div>
+  </div>
+  <div class="cover-left">
+    <div><span class="pill">Portfolio ✦ 2026</span></div>
+    <h1 class="hero-name"><span class="grad">Mariam</span><br>Atef</h1>
+    <div class="tagline">storyteller <span class="spark">✦</span> creator — making brands feel like people</div>
+    <p class="cover-summary">I blend marketing brains with a designer's heart — crafting visuals, campaigns and content systems that people actually feel. 60+ designs, 25+ happy clients, and a cozy inbox that always replies within 24 hours.</p>
+  </div>
+  <div class="cover-meta">Egypt ✦ Open for projects &amp; collaborations ✦ @mariam.atef333</div>
+</div>
+
+<!-- ============ SLIDE 2 · ABOUT ============ -->
+<div class="page">
+  <div class="deco-circles">
+    <svg width="150" height="120" viewBox="0 0 150 120" fill="none">
+      <circle cx="60" cy="60" r="44" stroke="#c39c52" stroke-width="0.7" opacity="0.28"/>
+      <circle cx="74" cy="66" r="44" stroke="#c39c52" stroke-width="0.7" opacity="0.18"/>
+      <circle cx="118" cy="28" r="6" fill="#c39c52" opacity="0.4"/>
+    </svg>
+  </div>
+  <div class="about-head">
+    <span class="pill">About Me</span>
+    <h2 class="title">Nice to meet you, <em>really</em></h2>
+  </div>
+  <div class="about-copy">
+    <p>I'm Mariam — 24, a Faculty of Arts graduate working across marketing and design. I live for the sweet spot where strategy meets aesthetics: ideas that look beautiful <b>and</b> work beautifully.</p>
+    <p>From social campaigns to brand visuals, I bring both sides of my brain to every project — the marketer who thinks about the audience, and the designer who obsesses over every curve, color and comma. The result? Work that stays in the heart.</p>
+    <div class="chips">
+      <span class="chip"><span class="s">✦</span> Arts graduate</span>
+      <span class="chip"><span class="s">✦</span> Marketing brain</span>
+      <span class="chip"><span class="s">✦</span> Designer's heart</span>
+      <span class="chip"><span class="s">✦</span> Based in Egypt</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num">24</div><div class="lbl">Years of being lovely</div></div>
+    <div class="stat"><div class="num">60<sup>+</sup></div><div class="lbl">Designs &amp; campaigns</div></div>
+    <div class="stat"><div class="num">25<sup>+</sup></div><div class="lbl">Happy clients</div></div>
+    <div class="stat"><div class="num">100<sup>%</sup></div><div class="lbl">Love in every detail</div></div>
+  </div>
+  <div class="footer"><span>Mariam Atef ✦ Portfolio</span><span>02</span></div>
+</div>
+
+<!-- ============ SLIDE 3 · WHAT I DO ============ -->
+<div class="page">
+  <div class="svc-head">
+    <span class="pill">What I Do</span>
+    <h2 class="title">Little things I'm <em>good at</em></h2>
+    <p class="sub">Three flavors of design I pour my heart into — plus the tools I keep sharp in my belt.</p>
+  </div>
+  <div class="svc-row">
+    <div class="svc-card">
+      <div class="svc-num">✦ 01</div>
+      <h3>Marketing &amp; Campaigns</h3>
+      <p class="d">Strategies and campaigns that speak human&nbsp;— from idea to execution, built around real audience insights.</p>
+      <ul>
+        <li><span class="s">✦</span>Campaign concepts</li>
+        <li><span class="s">✦</span>Content strategy</li>
+        <li><span class="s">✦</span>Ad campaigns</li>
+      </ul>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">✦ 02</div>
+      <h3>Branding &amp; Visual Design</h3>
+      <p class="d">Visual identities and designs with a soul — colors, logos and layouts that make brands feel like people.</p>
+      <ul>
+        <li><span class="s">✦</span>Logos &amp; identities</li>
+        <li><span class="s">✦</span>Marketing visuals</li>
+        <li><span class="s">✦</span>Print &amp; digital</li>
+      </ul>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">✦ 03</div>
+      <h3>Social Media Design</h3>
+      <p class="d">Scroll-stopping content systems for social platforms — posts, stories and covers with a consistent mood.</p>
+      <ul>
+        <li><span class="s">✦</span>Post &amp; story design</li>
+        <li><span class="s">✦</span>Grid systems</li>
+        <li><span class="s">✦</span>Reels &amp; covers</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tools"><b>Tools I keep sharp</b> Photoshop ✦ Illustrator ✦ Premiere Pro ✦ After Effects ✦ CapCut ✦ Meta Suite</div>
+  <div class="footer"><span>Mariam Atef ✦ Portfolio</span><span>03</span></div>
+</div>
