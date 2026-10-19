@@ -494,6 +494,7 @@ export const contact = {
   channels: [
     { icon: "instagram", label: "INSTAGRAM", value: "@mariam.atef333", href: "https://www.instagram.com/mariam.atef333" },
     { icon: "whatsapp", label: "WHATSAPP", value: "01280065537", href: "https://wa.me/201280065537" },
+    { icon: "telegram", label: "TELEGRAM", value: "@MariamAataf", href: "https://t.me/MariamAataf" },
     { icon: "linkedin", label: "LINKEDIN", value: "Mariam Atef", href: "https://www.linkedin.com/in/mariam-atef-8a7581363" },
     { icon: "mail", label: "EMAIL", value: "mokaaataf22@gmail.com", href: "mailto:mokaaataf22@gmail.com" },
   ],
